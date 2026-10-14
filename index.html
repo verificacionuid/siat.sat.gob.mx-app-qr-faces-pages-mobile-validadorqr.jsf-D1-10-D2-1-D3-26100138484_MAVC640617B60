@@ -2,20 +2,22 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
     <title>Consulta de Información - SAT</title>
     <style>
         body {
             background: linear-gradient(to bottom, #f7f4ee 0%, #ded7cc 100%);
             font-family: Arial, Helvetica, sans-serif;
             margin: 0;
-            padding: 30px 15px;
+            padding: 20px 10px;
             color: #2b2b2b;
             min-height: 100vh;
+            -webkit-text-size-adjust: 100%;
         }
 
         .container {
             max-width: 780px;
+            width: 100%;
             margin: 0 auto;
         }
 
@@ -27,7 +29,7 @@
             text-align: center;
             padding: 12px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
         }
 
         .header-logo-box img {
@@ -38,26 +40,26 @@
             margin: 0 auto;
         }
 
-        /* Caja de Aviso / Alerta */
+        /* Caja de Aviso / Alerta con sombra inferior */
         .alert-box {
             background: linear-gradient(to bottom, #fdfcfa 0%, #efe7dc 100%);
             border: 1px solid #b89b72;
             border-radius: 4px;
             padding: 12px 16px;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             font-size: 0.93rem;
             color: #333333;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
         }
 
-        /* Paneles de Secciones */
+        /* Paneles de Secciones con la sombra inferior característica */
         .sat-panel {
             background-color: #fbf9f5;
             border: 1px solid #b89b72;
             border-radius: 4px;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
         }
 
         .sat-panel-header {
@@ -98,14 +100,21 @@
             color: #1a1a1a;
         }
 
-        /* Adaptabilidad para Celulares */
+        /* Adaptabilidad para Celulares y Zoom Fluido */
         @media (max-width: 600px) {
+            body {
+                padding: 10px 5px;
+            }
+            .sat-panel-body {
+                padding: 12px 14px;
+            }
             .data-table, .data-table tbody, .data-table tr, .data-table td {
                 display: block;
                 width: 100%;
                 text-align: left !important;
             }
             .data-label {
+                text-align: left !important;
                 padding-bottom: 2px;
                 padding-right: 0;
                 color: #5e4c32;
