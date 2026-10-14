@@ -3,316 +3,241 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Validador QR - Servicio de Administración Tributaria</title>
+    <title>Consulta de Información - SAT</title>
     <style>
         :root {
-            --sat-red: #9D2449;
-            --sat-gold: #B38E5D;
-            --sat-dark: #28302E;
-            --sat-gray-bg: #f4f6f7;
-            --sat-border: #e0e0e0;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --sat-box-bg: #f5f2eb;
+            --sat-border: #b89768;
+            --sat-header-bg: linear-gradient(to bottom, #d4be94 0%, #a88858 100%);
+            --sat-text-dark: #333333;
         }
 
         body {
-            background-color: var(--sat-gray-bg);
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        header {
-            background-color: #ffffff;
-            border-bottom: 3px solid var(--sat-red);
-            padding: 15px 25px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .brand-title {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--sat-red);
-            border-left: 2px solid var(--sat-border);
-            padding-left: 15px;
-        }
-
-        main {
-            flex: 1;
-            max-width: 900px;
-            width: 92%;
-            margin: 25px auto;
-        }
-
-        .card {
-            background: #ffffff;
-            border-radius: 8px;
-            border: 1px solid var(--sat-border);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-            margin-bottom: 25px;
-        }
-
-        .card-header {
-            background-color: var(--sat-red);
-            color: #ffffff;
-            padding: 14px 20px;
-            font-size: 1.05rem;
-            font-weight: 600;
-        }
-
-        .card-body {
+            background-color: #e8e4dc;
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
             padding: 20px;
+            color: var(--sat-text-dark);
         }
 
-        .alert-success {
-            background-color: #e8f5e9;
-            border-left: 4px solid #2e7d32;
-            color: #1b5e20;
-            padding: 14px 18px;
-            margin-bottom: 20px;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Encabezado de Logos */
+        .header-logos {
+            text-align: center;
+            background: #ffffff;
+            padding: 15px;
             border-radius: 4px;
-            font-size: 0.92rem;
-            line-height: 1.4;
+            border: 1px solid var(--sat-border);
+            margin-bottom: 20px;
         }
 
-        .section-title {
-            font-size: 1rem;
-            color: var(--sat-red);
-            border-bottom: 2px solid var(--sat-gold);
-            padding-bottom: 6px;
-            margin: 20px 0 12px 0;
-            text-transform: uppercase;
-            font-weight: 700;
+        .header-logos img {
+            max-width: 350px;
+            height: auto;
         }
 
+        /* Banner de Aviso */
+        .alert-banner {
+            background-color: var(--sat-box-bg);
+            border: 1px solid var(--sat-border);
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            color: #4a3b2c;
+        }
+
+        /* Secciones Estilo SAT */
+        .sat-panel {
+            background-color: var(--sat-box-bg);
+            border: 1px solid var(--sat-border);
+            border-radius: 6px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .sat-panel-header {
+            background: var(--sat-header-bg);
+            color: #ffffff;
+            padding: 10px 15px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+            border-bottom: 1px solid var(--sat-border);
+        }
+
+        .sat-panel-body {
+            padding: 15px 20px;
+        }
+
+        /* Tablas de Datos */
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 10px;
         }
 
-        .data-table th, 
         .data-table td {
-            padding: 10px 14px;
-            text-align: left;
-            border-bottom: 1px solid var(--sat-border);
+            padding: 6px 8px;
             font-size: 0.9rem;
         }
 
-        .data-table th {
-            background-color: #fafafa;
-            width: 38%;
-            color: var(--sat-dark);
-            font-weight: 600;
+        .data-label {
+            text-align: right;
+            font-weight: bold;
+            width: 45%;
+            color: #4a3b2c;
+            padding-right: 15px;
         }
 
-        .data-table td {
-            color: #444;
-            word-break: break-word;
+        .data-value {
+            text-align: left;
+            color: #222222;
         }
 
-        .badge-valid {
-            display: inline-block;
-            background-color: #2e7d32;
-            color: #ffffff;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.78rem;
-            font-weight: 700;
-        }
-
-        footer {
-            background-color: var(--sat-dark);
-            color: #ffffff;
-            text-align: center;
-            padding: 15px;
-            font-size: 0.82rem;
-            margin-top: auto;
-        }
-
-        @media (max-width: 640px) {
-            header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-            }
-
-            .brand-title {
-                border-left: none;
-                padding-left: 0;
-            }
-
-            .data-table th, 
-            .data-table td {
+        @media (max-width: 600px) {
+            .data-table, .data-table tbody, .data-table tr, .data-table td {
                 display: block;
                 width: 100%;
+                text-align: left !important;
             }
-
-            .data-table th {
-                background-color: transparent;
+            .data-label {
                 padding-bottom: 2px;
-                color: #888;
-                font-size: 0.8rem;
-                text-transform: uppercase;
+                padding-right: 0;
+                color: #775c32;
             }
-
-            .data-table td {
-                padding-top: 0;
+            .data-value {
                 padding-bottom: 10px;
-                font-weight: 600;
             }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="brand">
-            <span style="font-weight: 800; font-size: 1.4rem; color: var(--sat-dark);">GOBIERNO DE MÉXICO</span>
-            <span class="brand-title">SAT</span>
-        </div>
-        <div style="font-size: 0.85rem; color: #666;">Servicio de Administración Tributaria</div>
-    </header>
+    <div class="container">
 
-    <main>
-        <div class="card">
-            <div class="card-header">
-                Resultado de Validación del Documento (QR)
+        <!-- LOGOS OFICIALES HACIENDA / SAT -->
+        <div class="header-logos">
+            <!-- Si subes una imagen con el logo, colócala en la misma carpeta como logo.png y usa <img src="logo.png"> -->
+            <div style="font-weight: bold; font-size: 1.1rem; color: #82183b; letter-spacing: 1px;">
+                HACIENDA <span style="color: #333; font-weight: normal; font-size: 0.9rem;">| &nbsp; SAT</span>
             </div>
-            <div class="card-body">
-                <div class="alert-success">
-                    <strong>✓ Documento Auténtico:</strong> La Cédula de Identificación Fiscal / Constancia de Situación Fiscal fue emitida por el Servicio de Administración Tributaria.
-                </div>
+            <div style="font-size: 0.65rem; color: #666; margin-top: 2px;">SECRETARÍA DE HACIENDA Y CRÉDITO PÚBLICO &nbsp;&nbsp;&nbsp; SERVICIO DE ADMINISTRACIÓN TRIBUTARIA</div>
+        </div>
 
-                <!-- 1. DATOS DE IDENTIFICACIÓN -->
-                <div class="section-title">1. Datos de Identificación del Contribuyente</div>
+        <!-- AVISO SUPERIOR -->
+        <div class="alert-banner">
+            El RFC: <strong>MAVC640617B60</strong>, tiene asociada la siguiente información.
+        </div>
+
+        <!-- 1. DATOS DE IDENTIFICACIÓN -->
+        <div class="sat-panel">
+            <div class="sat-panel-header">Datos de Identificación</div>
+            <div class="sat-panel-body">
                 <table class="data-table">
-                    <tbody>
-                        <tr>
-                            <th>Estatus en el Padrón</th>
-                            <td><span class="badge-valid">ACTIVO</span></td>
-                        </tr>
-                        <tr>
-                            <th>RFC</th>
-                            <td><strong>MAVC640617B60</strong></td>
-                        </tr>
-                        <tr>
-                            <th>idCIF / Folio</th>
-                            <td>26100138484</td>
-                        </tr>
-                        <tr>
-                            <th>CURP</th>
-                            <td>MAVC640617HDFXXX00</td>
-                        </tr>
-                        <tr>
-                            <th>Nombre / Razón Social</th>
-                            <td>MA. DEL CARMEN MARTINEZ VAZQUEZ</td>
-                        </tr>
-                        <tr>
-                            <th>Fecha de Inicio de Operaciones</th>
-                            <td>17/06/1982</td>
-                        </tr>
-                        <tr>
-                            <th>Estatus del Domicilio</th>
-                            <td>LOCALIZADO</td>
-                        </tr>
-                    </tbody>
+                    <tr>
+                        <td class="data-label">CURP:</td>
+                        <td class="data-value">MAVC640617MSPRLN09</td>
+                    </tr>
+                    <tr>
+                        <td class="data-label">Nombre:</td>
+                        <td class="data-value">MA. DEL CONSUELO</td>
+                    </tr>
+                    <tr>
+                        <td class="data-label">Apellido Paterno:</td>
+                        <td class="data-value">MARTINEZ</td>
+                    </tr>
+                    <tr>
+                        <td class="data-label">Apellido Materno:</td>
+                        <td class="data-value">VILLANUEVA</td>
+                    </tr>
+                    <tr>
+                        <td class="data-label">Fecha Nacimiento:</td>
+                        <td class="data-value">17-06-1964</td>
+                    </tr>
+                    <tr>
+                        <td class="data-label">Fecha de Inicio de operaciones:</td>
+                        <td class="data-value">20-12-2012</td>
+                    </tr>
+                    <tr>
+                        <td class="data-label">Situación del contribuyente:</td>
+                        <td class="data-value">ACTIVO</td>
+                    </tr>
+                    <tr>
+                        <td class="data-label">Fecha del último cambio de situación:</td>
+                        <td class="data-value">31-01-2013</td>
+                    </tr>
                 </table>
-
-                <!-- 2. UBICACIÓN FISCAL -->
-                <div class="section-title">2. Datos de Ubicación (Domicilio Fiscal)</div>
-                <table class="data-table">
-                    <tbody>
-                        <tr>
-                            <th>Código Postal</th>
-                            <td>03100</td>
-                        </tr>
-                        <tr>
-                            <th>Tipo de Vialidad</th>
-                            <td>AVENIDA</td>
-                        </tr>
-                        <tr>
-                            <th>Nombre de Vialidad</th>
-                            <td>INSURGENTES SUR</td>
-                        </tr>
-                        <tr>
-                            <th>Número Exterior</th>
-                            <td>1200</td>
-                        </tr>
-                        <tr>
-                            <th>Número Interior</th>
-                            <td>S/N</td>
-                        </tr>
-                        <tr>
-                            <th>Colonia</th>
-                            <td>DEL VALLE CENTRO</td>
-                        </tr>
-                        <tr>
-                            <th>Municipio / Alcaldía</th>
-                            <td>BENITO JUÁREZ</td>
-                        </tr>
-                        <tr>
-                            <th>Entidad Federativa</th>
-                            <td>CIUDAD DE MÉXICO</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <!-- 3. RÉGIMEN Y ACTIVIDAD ECONÓMICA -->
-                <div class="section-title">3. Régimen Fiscal y Actividades</div>
-                <table class="data-table">
-                    <tbody>
-                        <tr>
-                            <th>Régimen Fiscal</th>
-                            <td>Régimen de las Personas Físicas con Actividades Empresariales y Profesionales</td>
-                        </tr>
-                        <tr>
-                            <th>Actividad Económica Principal</th>
-                            <td>Servicios de consultoría en administración y gestión fiscal</td>
-                        </tr>
-                        <tr>
-                            <th>Porcentaje de Actividad</th>
-                            <td>100%</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <!-- 4. CADENA DE VALIDACIÓN -->
-                <div class="section-title">4. Sello Criptográfico de Validación</div>
-                <table class="data-table">
-                    <tbody>
-                        <tr>
-                            <th>Cadena Original</th>
-                            <td style="font-family: monospace; font-size: 0.8rem; background: #f9f9f9; padding: 10px;">
-                                ||2026/10/14|MAVC640617B60|CONSTANCIA DE SITUACIÓN FISCAL|26100138484|D1=10|D2=1||
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
             </div>
         </div>
-    </main>
 
-    <footer>
-        <p>Servicio de Administración Tributaria &copy; Todos los derechos reservados.</p>
-    </footer>
+        <!-- 2. DATOS DE UBICACIÓN -->
+        <div class="sat-panel">
+            <div class="sat-panel-header">Datos de Ubicación (domicilio fiscal, vigente)</div>
+            <div class="sat-panel-body">
+                <table class="data-table">
+                    <tr>
+                        <td class="data-label">Entidad Federativa:</td>
+                        <td class="data-value">CIUDAD DE MEXICO</td>
+                    </tr>
+                    <tr>
+                        <td class="data-label">Municipio o delegación:</td>
+                        <td class="data-value">BENITO JUAREZ</td>
+                    </tr>
+                    <tr>
+                        <td class="data-label">Colonia:</td>
+                        <td class="data-value">NAPOLES</td>
+                    </tr>
+                    <tr>
+                        <td class="data-label">Tipo de vialidad:</td>
+                        <td class="data-value"></td>
+                    </tr>
+                    <tr>
+                        <td class="data-label">Nombre de la vialidad:</td>
+                        <td class="data-value">MONTECITO</td>
+                    </tr>
+                    <tr>
+                        <td class="data-label">Número exterior:</td>
+                        <td class="data-value">38</td>
+                    </tr>
+                    <tr>
+                        <td class="data-label">Número interior:</td>
+                        <td class="data-value">1 PISO 10</td>
+                    </tr>
+                    <tr>
+                        <td class="data-label">CP:</td>
+                        <td class="data-value">03810</td>
+                    </tr>
+                    <tr>
+                        <td class="data-label">AL:</td>
+                        <td class="data-value">CIUDAD DE MEXICO 2</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- 3. CARACTERÍSTICAS FISCALES -->
+        <div class="sat-panel">
+            <div class="sat-panel-header">Características fiscales (vigente)</div>
+            <div class="sat-panel-body">
+                <table class="data-table">
+                    <tr>
+                        <td class="data-label">Régimen:</td>
+                        <td class="data-value">Régimen de Sueldos y Salarios e Ingresos Asimilados a Salarios</td>
+                    </tr>
+                    <tr>
+                        <td class="data-label">Fecha de alta:</td>
+                        <td class="data-value">20-12-2012</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
 
 </body>
 </html>
